@@ -2,7 +2,6 @@
 {
     public class CommunicationInfo
     {
-
         public CommunationInfoType InfoType { get; set; }
 
         public string Detail { get; set; }

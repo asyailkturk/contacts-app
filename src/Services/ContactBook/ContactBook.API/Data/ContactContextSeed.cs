@@ -10,7 +10,7 @@ namespace ContactBook.API.Data
             bool exist = contactCollection.Find(p => true).Any();
             if (!exist)
             {
-                contactCollection.InsertManyAsync(GetPreconfiguredContacts());
+                contactCollection.InsertMany(GetPreconfiguredContacts());
             }
         }
 
@@ -33,7 +33,7 @@ namespace ContactBook.API.Data
                          new CommunicationInfo
                         {
                             Detail = "05555555555",
-                            InfoType = CommunationInfoType.Location
+                            InfoType = CommunationInfoType.PhoneNumber
                         },
                            new CommunicationInfo
                         {
@@ -42,8 +42,7 @@ namespace ContactBook.API.Data
                         },
                     }
                 },
-
-                 new Contact()
+                new Contact()
                 {
                     FirstName = "Jane",
                     LastName = "Doe",
@@ -58,7 +57,7 @@ namespace ContactBook.API.Data
                          new CommunicationInfo
                         {
                             Detail = "05555555555",
-                            InfoType = CommunationInfoType.Location
+                            InfoType = CommunationInfoType.PhoneNumber
                         },
                            new CommunicationInfo
                         {
@@ -82,7 +81,7 @@ namespace ContactBook.API.Data
                          new CommunicationInfo
                         {
                             Detail = "05555555555",
-                            InfoType = CommunationInfoType.Location
+                            InfoType = CommunationInfoType.PhoneNumber
                         },
                            new CommunicationInfo
                         {
@@ -90,7 +89,7 @@ namespace ContactBook.API.Data
                             InfoType = CommunationInfoType.Email
                         },
                     }
-                },
+                }
 
             };
         }

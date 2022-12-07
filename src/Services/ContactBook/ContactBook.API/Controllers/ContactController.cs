@@ -18,13 +18,8 @@ namespace ContactBook.API.Controllers
 
 
         [HttpGet]
-        public async Task<ActionResult<List<Contact>>> GetContacts()
-        {
-            var contacts = await _repository.GetAsync();
-
-            return Ok(contacts);
-        }
-
+        public async Task<List<Contact>> Get() =>
+            await _repository.GetAsync();
 
         [HttpGet("{id}", Name = "GetContact")]
         public async Task<ActionResult<Contact>> Get(string id)

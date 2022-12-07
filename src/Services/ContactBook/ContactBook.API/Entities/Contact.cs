@@ -5,6 +5,8 @@ namespace ContactBook.API.Entities
 {
     public class Contact
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

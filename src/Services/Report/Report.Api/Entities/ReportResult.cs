@@ -12,6 +12,7 @@ namespace Report.API.Entities
         public DateTime CreatedDate { get; set; }
         public Status Status { get; set; }
         public string ReportUrl { get; set; }
+        public string Title { get; set; }
 
     }
 

@@ -67,7 +67,6 @@ namespace ContactBook.API.Controllers
             
         }
 
-    
         [HttpPut]
         [Route("{id}/[action]")]
         public async Task<ActionResult> DeleteContactInfo(string id)

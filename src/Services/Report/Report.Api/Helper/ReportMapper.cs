@@ -1,4 +1,4 @@
-﻿using Report.Api.Entities;
+﻿using Report.API.Entities;
 
 namespace Report.API.Helper
 {
@@ -13,8 +13,8 @@ namespace Report.API.Helper
                 ReportData reportData = new()
                 {
                     Location = value[0].ToString(),
-                    ContactCount = value[1].ToString(),
-                    PhoneNumberCount = value[2].ToString()
+                    ContactCount = Convert.ToInt32(value[1]),
+                    PhoneNumberCount = Convert.ToInt32(value[2])
                 };
                 reportDatas.Add(reportData);
             }

@@ -1,8 +1,8 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Report.Api.Repository;
+using Report.API.Repository;
 using Report.API.Entities;
-using Report.API.Service;
+using Report.API.Service.Interfaces;
 using System.Net;
 
 namespace Report.API.Controllers
@@ -11,14 +11,11 @@ namespace Report.API.Controllers
     [Route("api/[controller]")]
     public class ReportController : ControllerBase
     {
-        private readonly IReportRepository _repository;
-        private readonly IGoogleSheetService _service;
+        private readonly IReportService _reportService;
 
-
-        public ReportController(IReportRepository repository, IGoogleSheetService service)
+        public ReportController(IReportService reportService)
         {
-            _repository = repository;
-            _service = service;
+            _reportService = reportService;
 
         }
           
@@ -26,12 +23,12 @@ namespace Report.API.Controllers
 
         [HttpGet]
         public async Task<List<ReportResult>> Get() =>
-            await _repository.GetAsync();
+            await _reportService.GetAsync();
 
         [HttpGet("{id}", Name = "GetReport")]
         public async Task<ActionResult<ReportResult>> Get(string id)
         {
-            var contact = await _repository.GetAsync(id);
+            var contact = await _reportService.GetAsync(id);
 
             if (contact is null)
             {
@@ -41,17 +38,13 @@ namespace Report.API.Controllers
             return Ok(contact);
         }
 
-
-
         [HttpPost]
-        public async Task<IActionResult> test()
+        [Route("[action]")]
+        public async Task<IActionResult> CreateReportRequest()
         {
-            _service.Get();
+           await _reportService.CreateReport();
 
-            return Ok(_service.Get());
+            return Ok();
         }
-
-
-
     }
 }

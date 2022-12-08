@@ -3,12 +3,20 @@ version: '3.4'
 services:
   contactbookdb:
     image: mongo
+  reportdb:
+    image: mongo
 
   contactbook.api:
     image: ${DOCKER_REGISTRY-}contactbookapi
     build:
       context: .
-      dockerfile: Services/ContactBook/ContactBook.API/Dockerfile
+      dockerfile: Services/ContactBook/ContactBook.API/Dockerfile 
+
+  report.api:
+    image: ${DOCKER_REGISTRY-}reportapi
+    build:
+      context: .
+      dockerfile: Services/Report/Report.API/Dockerfile
 
 volumes:
   mongo_data:

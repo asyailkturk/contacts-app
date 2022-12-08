@@ -1,16 +1,17 @@
 ﻿using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
 using Microsoft.AspNetCore.Mvc;
-using Report.Api.Entities;
+using Report.API.Entities;
 using Report.API.Helper;
-using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource;
+using Report.API.Service.Interfaces;
+using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource.AppendRequest;
 
 namespace Report.API.Service
 {
     public class GoogleSheetService : IGoogleSheetService
     {
-        //const string SPREADSHEET_ID = "11qqVJ0rZXONJP-QCBxs5S_u5DuxIG8dctRCAPDPsJJE";
-        //const string SHEET_NAME = "Reports";
+        const string SPREADSHEET_ID = "11qqVJ0rZXONJP-QCBxs5S_u5DuxIG8dctRCAPDPsJJE";
+      
         SpreadsheetsResource _googleSheetService;
         
 
@@ -18,36 +19,53 @@ namespace Report.API.Service
         {
             _googleSheetService = googleSheetsHelper.Service.Spreadsheets;
         }
-        public List<ReportData> GetData(string spreadSheetId)
+        private async Task<List<ReportData>> GetData(string spreadSheetId)
         {
             var range = "A:C";
             var request = _googleSheetService.Values.Get(spreadSheetId, range);
             
-            var response = request.Execute();
+            var response =  await request.ExecuteAsync();
             var values = response.Values;
             return ReportMapper.MapFromRangeData(values);
         }
-
-        public void AddDatas(List<ReportData> reports, string spreadSheetId)
+        public async Task<string> AddDatas(List<ReportData> reports)
         {
-            var range = "A:C";
+            var newSheet = await CreateNewSheet();
+            var title = newSheet.UpdatedSpreadsheet.Sheets.LastOrDefault().Properties.Title;
+            var range = $"{title}!A:C";
             var valueRange = new ValueRange
             {
                 Values = ReportMapper.MapToRangeData(reports)
             };
 
-            var appendRequest = _googleSheetService.Values.Append(valueRange, spreadSheetId, range);
-            appendRequest.ValueInputOption = AppendRequest.ValueInputOptionEnum.USERENTERED;
-            appendRequest.Execute();
+            var appendRequest = _googleSheetService.Values.Append(valueRange, SPREADSHEET_ID, range);
+            appendRequest.ValueInputOption = ValueInputOptionEnum.USERENTERED;
+            await appendRequest.ExecuteAsync();
+            return title;
         }
-        public Spreadsheet CreateNewSheet(List<ReportData> reportDatas)
+        private async Task<Spreadsheet> CreateNewSpreadSheet()
         {
-           
+
             var sheetBody = new Spreadsheet();
-            sheetBody.Properties.Title= $"{DateTime.Now.ToString()}+ Report";
+            sheetBody.Properties.Title = $"{DateTime.Now.ToString()}+ Report";
             var request = _googleSheetService.Create(sheetBody);
-            
-            return request.Execute();
+          
+            return await request.ExecuteAsync();
+        }
+        private async Task<BatchUpdateSpreadsheetResponse> CreateNewSheet()
+        {
+
+            var body = new BatchUpdateSpreadsheetRequest();
+            var bodyItem = new Request();
+            bodyItem.AddSheet = new AddSheetRequest
+            {
+                Properties = new SheetProperties
+                { Title = $"{DateTime.Now.ToString()}+ Report" }
+            };
+            body.Requests.Add(bodyItem);
+            var request = _googleSheetService.BatchUpdate(body, SPREADSHEET_ID);
+
+            return await request.ExecuteAsync();
         }
 
 

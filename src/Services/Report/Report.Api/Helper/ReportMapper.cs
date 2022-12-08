@@ -7,13 +7,14 @@ namespace Report.API.Helper
         public static List<ReportData> MapFromRangeData(IList<IList<object>> values)
         {
             var reportDatas = new List<ReportData>();
+            values.RemoveAt(0);
             foreach (var value in values)
             {
                 ReportData reportData = new()
                 {
                     Location = value[0].ToString(),
-                    ContactCount = (int)value[1],
-                    PhoneNumberCount = (int)value[2]
+                    ContactCount = value[1].ToString(),
+                    PhoneNumberCount = value[2].ToString()
                 };
                 reportDatas.Add(reportData);
             }
@@ -23,6 +24,13 @@ namespace Report.API.Helper
         {
             var objectList = new List<object>() { reportData.Location, reportData.ContactCount,reportData.PhoneNumberCount };
             var rangeData = new List<IList<object>> { objectList };
+            return rangeData;
+        }
+
+        public static IList<IList<object>> MapToRangeData(List<ReportData> reportData)
+        {
+            var list= reportData.Cast<object>().ToList();
+            var rangeData = new List<IList<object>> { list };
             return rangeData;
         }
     }

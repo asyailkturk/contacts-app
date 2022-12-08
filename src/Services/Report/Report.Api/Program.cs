@@ -1,6 +1,7 @@
 using Report.Api.Data;
 using Report.Api.Repository;
 using Report.API.Helper;
+using Report.API.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IReportContext, ReportContext>();
 builder.Services.AddSingleton<IReportRepository, ReportRepository>();
 builder.Services.AddSingleton(typeof(GoogleSheetsHelper));
+builder.Services.AddSingleton<IGoogleSheetService, GoogleSheetService>();
 
 var app = builder.Build();
 

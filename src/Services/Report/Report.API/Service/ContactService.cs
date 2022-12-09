@@ -11,7 +11,7 @@ namespace Report.API.Service
         public ContactService(HttpClient httpClient)
         {
             _httpClient = httpClient;
-            _httpClient.BaseAddress = new Uri("http://localhost:8000/");
+            _httpClient.BaseAddress = new Uri("http://host.docker.internal:8000/");
         }
         public async Task<List<GetContactsResponseModel?>> GetData()
         {

@@ -1,4 +1,5 @@
-﻿using Report.API.Entities;
+﻿using Google.Apis.Sheets.v4.Data;
+using Report.API.Entities;
 
 namespace Report.API.Helper
 {
@@ -13,8 +14,8 @@ namespace Report.API.Helper
                 ReportData reportData = new()
                 {
                     Location = value[0].ToString(),
-                    ContactCount = Convert.ToInt32(value[1]),
-                    PhoneNumberCount = Convert.ToInt32(value[2])
+                    ContactCount = value[1].ToString(),
+                    PhoneNumberCount = value[2].ToString()
                 };
                 reportDatas.Add(reportData);
             }
@@ -29,8 +30,12 @@ namespace Report.API.Helper
 
         public static IList<IList<object>> MapToRangeData(List<ReportData> reportData)
         {
-            var list= reportData.Cast<object>().ToList();
-            var rangeData = new List<IList<object>> { list };
+            var objectList = new List<object>() {"Location", "Contact Count", "PhoneNumberCount" };
+            var rangeData = new List<IList<object>> { objectList };
+            foreach (var data in reportData)
+            {
+                rangeData.Add(new List<object>() { data.Location, data.ContactCount, data.PhoneNumberCount });
+            }
             return rangeData;
         }
     }

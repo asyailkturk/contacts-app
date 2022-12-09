@@ -13,12 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<IReportContext, ReportContext>();
 builder.Services.AddHttpClient();
 builder.Services.AddTransient(typeof(GoogleSheetsHelper));
 builder.Services.AddTransient<IGoogleSheetService, GoogleSheetService>();
 builder.Services.AddTransient<IContactService, ContactService>();
 builder.Services.AddTransient<IReportService, ReportService>();
-builder.Services.AddSingleton<IReportContext, ReportContext>();
 builder.Services.AddSingleton<IReportRepository, ReportRepository>();
 
 

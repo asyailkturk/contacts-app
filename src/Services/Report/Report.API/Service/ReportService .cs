@@ -60,17 +60,18 @@ namespace Report.API.Service
                 if (item != -1)
                 {
 
-                    responseList[item].ContactCount = responseList[item].ContactCount++;
-                    responseList[item].PhoneNumberCount = contact.CommunicationInfo.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ? responseList[item].PhoneNumberCount++ : responseList[item].PhoneNumberCount;
+                    responseList[item].ContactCount = (Convert.ToInt32(responseList[item].ContactCount) + 1).ToString();
+                    responseList[item].PhoneNumberCount = contact.CommunicationInfo.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ? 
+                        (Convert.ToInt32(responseList[item].PhoneNumberCount) +1).ToString() : responseList[item].PhoneNumberCount;
 
                 }
                 else
                 {
                     responseList.Add(new ReportData
                     {
-                        ContactCount = 1,
+                        ContactCount = "1",
                         Location = contact.CommunicationInfo.Where(x => x.InfoType == CommunationInfoType.Location).FirstOrDefault().Detail,
-                        PhoneNumberCount = contact.CommunicationInfo.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ? 1 :0,
+                        PhoneNumberCount = contact.CommunicationInfo.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ? "1" :"0",
                     });
 
                 }

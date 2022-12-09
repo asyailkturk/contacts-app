@@ -7,14 +7,15 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db
+      - "/var/lib/mongodb-contactbookdb:/data/db"
   reportdb:
     container_name: reportdb
     restart: always
     ports:
       - "27018:27018"
+    command: ["mongod", "--port", "27018"]
     volumes:
-      - mongo_data:/data/db
+      - "/var/lib/mongodb-reportdb:/data/db"
 
   contactbook.api:
     container_name: contactbook.api
@@ -29,8 +30,9 @@ services:
     container_name: report.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString:=mongodb://contactbookdb:27017"
+      - "DatabaseSettings:ConnectionString:=mongodb://reportdb:27018"
     depends_on:
-      - contactbookdb
+      - reportdb
     ports:
       - "8001:80"
+

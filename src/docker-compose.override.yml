@@ -1,0 +1,49 @@
+version: '3.4'
+
+services:
+  contactbookdb:
+    container_name: contactbookdb
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - "/var/lib/mongodb-contactbookdb:/data/db"
+
+  reportdb:
+    container_name: reportdb
+    restart: always
+    ports:
+      - "27018:27018"
+    command: ["mongod", "--port", "27018"]
+    volumes:
+      - "/var/lib/mongodb-reportdb:/data/db"
+
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+        - "5672:5672"
+        - "15672:15672"
+
+  contactbook.api:
+    container_name: contactbook.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString:=mongodb://contactbookdb:27017"
+    depends_on:
+      - contactbookdb
+    ports:
+      - "8000:80"
+
+  report.api:
+    container_name: report.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString:=mongodb://reportdb:27018"      
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
+    depends_on:
+      - reportdb
+      - rabbitmq
+    ports:
+      - "8001:80"
+

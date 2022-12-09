@@ -18,8 +18,6 @@ namespace Report.API.Controllers
             _reportService = reportService;
 
         }
-          
-
 
         [HttpGet]
         public async Task<List<ReportResult>> Get() =>
@@ -42,8 +40,16 @@ namespace Report.API.Controllers
         [Route("[action]")]
         public async Task<IActionResult> CreateReportRequest()
         {
-           await _reportService.CreateReport();
+           await _reportService.CreateReportRequest();
 
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> CreateReport()
+        {
+            await _reportService.CreateReport();
             return Ok();
         }
     }

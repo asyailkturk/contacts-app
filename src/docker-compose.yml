@@ -6,6 +6,9 @@ services:
   reportdb:
     image: mongo
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine 
+
   contactbook.api:
     image: ${DOCKER_REGISTRY-}contactbookapi
     build:

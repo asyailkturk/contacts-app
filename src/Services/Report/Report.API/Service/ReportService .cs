@@ -6,6 +6,7 @@ using Report.API.Models;
 using Report.API.Service.Interfaces;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using MassTransit;
 
 namespace Report.API.Service
 {
@@ -14,30 +15,46 @@ namespace Report.API.Service
         private readonly IReportRepository _reportRepository;
         private readonly IContactService _contactService;
         private readonly IGoogleSheetService _googleService;
+        private readonly IPublishEndpoint _publishEndpoint;
         const string URL = @"https://docs.google.com/spreadsheets/d/11qqVJ0rZXONJP-QCBxs5S_u5DuxIG8dctRCAPDPsJJE/edit#gid=0";
-        public ReportService(IReportRepository reportRepository, IContactService contactService, IGoogleSheetService googleService)
+        public ReportService(IReportRepository reportRepository,
+                             IContactService contactService,
+                             IGoogleSheetService googleService,
+                             IPublishEndpoint publishEndpoint)
         {
             _reportRepository = reportRepository;
             _contactService = contactService;
             _googleService = googleService; 
+            _publishEndpoint = publishEndpoint;
         }
-        public async Task CreateReport()
+        public async Task CreateReportRequest()
         {
 
            var report = await AddReportResult();
 
            var contacts = await _contactService.GetData();
 
+            _publishEndpoint.Publish();
+           
+        }
+
+        public async Task CreateReport(ReportResult report = null, List<GetContactsResponseModel> contacts =null)
+        {
+            if(report == null)
+                report = await AddReportResult();
+            if(contacts == null)
+                contacts = await _contactService.GetData();
+
            var data = await PrepareDatas(contacts);
 
-           var title = await _googleService.AddDatas(data);
+            var title = await _googleService.AddDatas(data);
 
-           report.ReportUrl = URL;
-           report.Title = title;
-           report.Status = Status.Done;
+            report.ReportUrl = URL;
+            report.Title = title;
+            report.Status = Status.Done;
 
             await UpdateReportResult(report);
-           
+
         }
 
         public Task<List<ReportResult>> GetAsync()

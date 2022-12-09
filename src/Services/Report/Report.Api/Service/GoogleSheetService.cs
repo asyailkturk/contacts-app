@@ -49,9 +49,6 @@ namespace Report.API.Service
 
             await _googleSheetService.Values.BatchUpdate(body , SPREADSHEET_ID).ExecuteAsync();
 
-            //var appendRequest = _googleSheetService.Values.Append(valueRange, SPREADSHEET_ID, range);
-            //appendRequest.ValueInputOption = ValueInputOptionEnum.USERENTERED;
-            //await appendRequest.ExecuteAsync();
             return title;
         }
         private async Task<Spreadsheet> CreateNewSpreadSheet()

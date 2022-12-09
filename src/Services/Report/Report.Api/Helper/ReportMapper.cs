@@ -30,7 +30,7 @@ namespace Report.API.Helper
 
         public static IList<IList<object>> MapToRangeData(List<ReportData> reportData)
         {
-            var objectList = new List<object>() {"Location", "Contact Count", "PhoneNumberCount" };
+            var objectList = new List<object>() {"Location", "Contact Count", "PhoneNumber Count" };
             var rangeData = new List<IList<object>> { objectList };
             foreach (var data in reportData)
             {

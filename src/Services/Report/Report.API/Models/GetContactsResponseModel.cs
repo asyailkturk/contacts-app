@@ -1,4 +1,5 @@
-﻿namespace Report.API.Models
+﻿
+namespace Report.API.Models
 {
     public class GetContactsResponseModel
     {

@@ -3,12 +3,14 @@ using Report.API.Repository;
 using Report.API.Helper;
 using Report.API.Service;
 using Report.API.Service.Interfaces;
+using MassTransit;
+using Report.API.EventBusConsumer;
+using EventBus.Messages.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -20,6 +22,23 @@ builder.Services.AddTransient<IGoogleSheetService, GoogleSheetService>();
 builder.Services.AddTransient<IContactService, ContactService>();
 builder.Services.AddTransient<IReportService, ReportService>();
 builder.Services.AddSingleton<IReportRepository, ReportRepository>();
+builder.Services.AddMassTransit(config =>
+{
+    config.AddConsumer<ReportCreateConsumer>();
+    config.UsingRabbitMq((ctx, cfg) =>
+    {
+        cfg.Host("rabbitmq", hostConfigurator => { });
+
+        cfg.ReceiveEndpoint(EventBusConstants.ReportCreateQueue, c =>
+        {
+            c.ConfigureConsumer<ReportCreateConsumer>(ctx);
+        });
+    });
+});
+
+builder.Services.AddScoped<ReportCreateConsumer>();
+
+builder.Services.AddControllers();
 
 
 var app = builder.Build();

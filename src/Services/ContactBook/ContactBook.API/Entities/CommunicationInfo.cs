@@ -1,4 +1,5 @@
-﻿namespace ContactBook.API.Entities
+﻿
+namespace ContactBook.API.Entities
 {
     public class CommunicationInfo
     {

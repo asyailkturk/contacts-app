@@ -57,7 +57,7 @@ namespace Report.API.Service
             report.ReportUrl = URL;
             report.Title = title;
             report.Status = Status.Done;
-            report.CreatedDate = context.CreationDate;
+            report.CreatedDate = context.CreationDate.AddHours(3);
             report.QueueId = context.Id.ToString();
 
             await UpdateReportResult(report);

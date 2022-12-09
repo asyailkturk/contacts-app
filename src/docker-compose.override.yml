@@ -39,9 +39,11 @@ services:
     container_name: report.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "DatabaseSettings:ConnectionString:=mongodb://reportdb:27018"
+      - "DatabaseSettings:ConnectionString:=mongodb://reportdb:27018"      
+      - "EventBusSettings:HostAddress=amqp://guest:guest@rabbitmq:5672"
     depends_on:
       - reportdb
+      - rabbitmq
     ports:
       - "8001:80"
 

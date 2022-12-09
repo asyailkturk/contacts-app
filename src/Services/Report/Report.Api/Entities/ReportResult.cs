@@ -13,6 +13,7 @@ namespace Report.API.Entities
         public Status Status { get; set; }
         public string ReportUrl { get; set; }
         public string Title { get; set; }
+        public string QueueId { get; set; }
 
     }
 

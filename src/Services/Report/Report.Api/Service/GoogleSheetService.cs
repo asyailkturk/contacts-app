@@ -69,7 +69,7 @@ namespace Report.API.Service
             bodyItem.AddSheet = new AddSheetRequest
             {
                 Properties = new SheetProperties
-                { Title = $"{DateTime.Now.ToString()}+ Report" }
+                { Title = $"{DateTime.UtcNow.AddHours(3).ToString()}+ Report" }
             };
             body.Requests = new Request[] { bodyItem };
             

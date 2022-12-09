@@ -7,6 +7,8 @@ using Report.API.Service.Interfaces;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using MassTransit;
+using EventBus.Messages.Events;
+using Report.API.EventBusEvent;
 
 namespace Report.API.Service
 {
@@ -34,24 +36,29 @@ namespace Report.API.Service
 
            var contacts = await _contactService.GetData();
 
-            _publishEndpoint.Publish();
+            await _publishEndpoint.Publish<ReportCreateEvent>( new ReportCreateEvent
+            {
+                Contacts = contacts,
+                Report= report,
+            });
            
         }
 
-        public async Task CreateReport(ReportResult report = null, List<GetContactsResponseModel> contacts =null)
+        public async Task CreateReport( ReportCreateEvent? context = null)
         {
-            if(report == null)
-                report = await AddReportResult();
-            if(contacts == null)
-                contacts = await _contactService.GetData();
+            
+            var report = context.Report ?? await AddReportResult();
+            var contacts = context.Contacts ?? await _contactService.GetData();
 
-           var data = await PrepareDatas(contacts);
+            var data = await PrepareDatas(contacts);
 
             var title = await _googleService.AddDatas(data);
 
             report.ReportUrl = URL;
             report.Title = title;
             report.Status = Status.Done;
+            report.CreatedDate = context.CreationDate;
+            report.QueueId = context.Id.ToString();
 
             await UpdateReportResult(report);
 
@@ -107,7 +114,6 @@ namespace Report.API.Service
            return  await _reportRepository.CreateAsync( new ReportResult
             {
                 Status = Status.Prepraring,
-                CreatedDate = DateTime.Now
             });
         }
     }

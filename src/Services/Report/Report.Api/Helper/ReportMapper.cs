@@ -1,5 +1,4 @@
-﻿using Google.Apis.Sheets.v4.Data;
-using Report.API.Entities;
+﻿using Report.API.Entities;
 
 namespace Report.API.Helper
 {
@@ -7,9 +6,9 @@ namespace Report.API.Helper
     {
         public static List<ReportData> MapFromRangeData(IList<IList<object>> values)
         {
-            var reportDatas = new List<ReportData>();
+            List<ReportData> reportDatas = new();
             values.RemoveAt(0);
-            foreach (var value in values)
+            foreach (IList<object> value in values)
             {
                 ReportData reportData = new()
                 {
@@ -23,16 +22,16 @@ namespace Report.API.Helper
         }
         public static IList<IList<object>> MapToRangeData(ReportData reportData)
         {
-            var objectList = new List<object>() { reportData.Location, reportData.ContactCount,reportData.PhoneNumberCount };
-            var rangeData = new List<IList<object>> { objectList };
+            List<object> objectList = new() { reportData.Location, reportData.ContactCount, reportData.PhoneNumberCount };
+            List<IList<object>> rangeData = new() { objectList };
             return rangeData;
         }
 
         public static IList<IList<object>> MapToRangeData(List<ReportData> reportData)
         {
-            var objectList = new List<object>() {"Location", "Contact Count", "PhoneNumber Count" };
-            var rangeData = new List<IList<object>> { objectList };
-            foreach (var data in reportData)
+            List<object> objectList = new() { "Location", "Contact Count", "PhoneNumber Count" };
+            List<IList<object>> rangeData = new() { objectList };
+            foreach (ReportData data in reportData)
             {
                 rangeData.Add(new List<object>() { data.Location, data.ContactCount, data.PhoneNumberCount });
             }

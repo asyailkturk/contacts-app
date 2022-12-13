@@ -1,11 +1,11 @@
+using EventBus.Messages.Common;
+using MassTransit;
 using Report.API.Data;
-using Report.API.Repository;
+using Report.API.EventBusConsumer;
 using Report.API.Helper;
+using Report.API.Repository;
 using Report.API.Service;
 using Report.API.Service.Interfaces;
-using MassTransit;
-using Report.API.EventBusConsumer;
-using EventBus.Messages.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 

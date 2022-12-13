@@ -12,40 +12,45 @@ namespace ContactBook.API.Controllers
         private readonly IContactRepository _repository;
 
 
-        public ContactController( IContactRepository repository) =>
-           _repository = repository;
-        
-
+        public ContactController(IContactRepository repository)
+        {
+            _repository = repository;
+        }
 
         [HttpGet]
-        public async Task<List<Contact>> Get() =>
-            await _repository.GetAsync();
+        [ProducesResponseType(typeof(IEnumerable<Contact>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<Contact>>> Get()
+        {
+            var contacts = await _repository.GetAsync();
+            return Ok(contacts);
+        }
+
+
 
         [HttpGet("{id}", Name = "GetContact")]
         public async Task<ActionResult<Contact>> Get(string id)
         {
-            var contact = await _repository.GetAsync(id);
+            Contact? contact = await _repository.GetAsync(id);
 
-            if (contact is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(contact);
+            return contact is null ? (ActionResult<Contact>)NotFound() : (ActionResult<Contact>)Ok(contact);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Contact contact)
+        public async Task<ActionResult> Create(Contact contact)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             await _repository.CreateAsync(contact);
 
             return CreatedAtAction(nameof(Get), new { id = contact.Id }, contact);
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            var book = await _repository.GetAsync(id);
+            Contact? book = await _repository.GetAsync(id);
 
             if (book is null)
             {
@@ -61,10 +66,14 @@ namespace ContactBook.API.Controllers
         [Route("{id}/[action]")]
         public async Task<ActionResult> AddContactInfo(string id, [FromBody] CommunicationInfo contactInfo)
         {
-          var result = await _repository.AddContactInfoAsync(id, contactInfo);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            bool result = await _repository.AddContactInfoAsync(id, contactInfo);
 
             return result ? NoContent() : BadRequest("Contact has already contain this information.");
-            
+
         }
 
         [HttpPut]

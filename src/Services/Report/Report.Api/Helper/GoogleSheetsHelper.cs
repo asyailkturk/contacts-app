@@ -7,8 +7,9 @@ namespace Report.API.Helper
     public class GoogleSheetsHelper
     {
         public SheetsService Service { get; set; }
-        const string APPLICATION_NAME = "ContactBook";
-        static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
+
+        private const string APPLICATION_NAME = "ContactBook";
+        private static readonly string[] Scopes = { SheetsService.Scope.Spreadsheets };
 
         public GoogleSheetsHelper()
         {
@@ -17,7 +18,7 @@ namespace Report.API.Helper
 
         private void InitializeService()
         {
-            var credential = GetCredentialsFromFile();
+            GoogleCredential credential = GetCredentialsFromFile();
             Service = new SheetsService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential,
@@ -28,7 +29,7 @@ namespace Report.API.Helper
         private GoogleCredential GetCredentialsFromFile()
         {
             GoogleCredential credential;
-            using (var stream = new FileStream("client_secrets.json", FileMode.Open, FileAccess.Read))
+            using (FileStream stream = new("client_secrets.json", FileMode.Open, FileAccess.Read))
             {
                 credential = GoogleCredential.FromStream(stream).CreateScoped(Scopes);
             }

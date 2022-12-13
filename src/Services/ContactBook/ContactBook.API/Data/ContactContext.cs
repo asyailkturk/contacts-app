@@ -7,8 +7,8 @@ namespace ContactBook.API.Data
     {
         public ContactContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-            var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
+            MongoClient client = new(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+            IMongoDatabase database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
 
             Contacts = database.GetCollection<Contact>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
             ContactContextSeed.SeedData(Contacts);

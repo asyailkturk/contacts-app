@@ -36,11 +36,11 @@ namespace Report.API.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<ActionResult> CreateReportRequest()
+        public async Task<ActionResult<string>> CreateReportRequest()
         {
-            await _reportService.CreateReportRequest();
+            var id = await _reportService.CreateReportRequest();
 
-            return Ok();
+           return (ActionResult<string>)Ok(id);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Report.API.Service.Interfaces
 {
     public interface IReportService
     {
-        Task CreateReportRequest();
+        Task<string> CreateReportRequest();
         Task CreateReport(ReportCreateEvent context);
         Task<List<ReportResult>> GetAsync();
         Task<ReportResult?> GetAsync(string id);

@@ -26,7 +26,7 @@ namespace Report.API.Service
             _googleService = googleService;
             _publishEndpoint = publishEndpoint;
         }
-        public async Task CreateReportRequest()
+        public async Task<string> CreateReportRequest()
         {
 
             ReportResult report = await AddReportResult();
@@ -38,6 +38,8 @@ namespace Report.API.Service
                 Contacts = contacts,
                 Report = report,
             });
+
+            return report.Id;
 
         }
         public Task<List<ReportResult>> GetAsync()

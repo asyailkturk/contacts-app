@@ -36,8 +36,6 @@ builder.Services.AddMassTransit(config =>
     });
 });
 
-builder.Services.AddScoped<ReportCreateConsumer>();
-
 builder.Services.AddControllers();
 
 

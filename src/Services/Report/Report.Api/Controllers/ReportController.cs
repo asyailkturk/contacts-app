@@ -1,6 +1,5 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using Report.API.Repository;
 using Report.API.Entities;
 using Report.API.Service.Interfaces;
 using System.Net;
@@ -20,36 +19,27 @@ namespace Report.API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<ReportResult>> Get() =>
-            await _reportService.GetAsync();
+        [ProducesResponseType(typeof(IEnumerable<ReportResult>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<ReportResult>>> Get()
+        {
+            var reports = await _reportService.GetAsync();
+            return Ok(reports);
+        }
 
         [HttpGet("{id}", Name = "GetReport")]
         public async Task<ActionResult<ReportResult>> Get(string id)
         {
-            var contact = await _reportService.GetAsync(id);
+            ReportResult? report = await _reportService.GetAsync(id);
 
-            if (contact is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(contact);
+            return report is null ? (ActionResult<ReportResult>)NotFound() : (ActionResult<ReportResult>)Ok(report);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> CreateReportRequest()
+        public async Task<ActionResult> CreateReportRequest()
         {
-           await _reportService.CreateReportRequest();
+            await _reportService.CreateReportRequest();
 
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("[action]")]
-        public async Task<IActionResult> CreateReport()
-        {
-            await _reportService.CreateReport();
             return Ok();
         }
     }

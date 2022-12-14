@@ -13,12 +13,12 @@ namespace Report.API.EventBusConsumer
         public ReportCreateConsumer(IReportService reportService, ILogger<ReportCreateConsumer> logger)
         {
             _reportService = reportService;
-            _logger= logger;
+            _logger = logger;
         }
 
         public async Task Consume(ConsumeContext<ReportCreateEvent> context)
         {
-            await _reportService.CreateReport(context :context.Message);
+            await _reportService.CreateReport(context: context.Message);
             _logger.LogInformation("Event consumed.");
         }
     }

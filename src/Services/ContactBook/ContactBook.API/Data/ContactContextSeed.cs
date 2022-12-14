@@ -24,7 +24,7 @@ namespace ContactBook.API.Data
                     LastName = "İlktürk",
                     Company ="CompanyA",
                     CommunicationInfo = new List<CommunicationInfo>
-                    { 
+                    {
                         new CommunicationInfo
                         {
                             Detail = "Ankara",

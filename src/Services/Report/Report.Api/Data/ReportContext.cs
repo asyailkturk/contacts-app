@@ -7,11 +7,10 @@ namespace Report.API.Data
     {
         public ReportContext(IConfiguration configuration)
         {
-            var client = new MongoClient(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-            var database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
+            MongoClient client = new(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+            IMongoDatabase database = client.GetDatabase(configuration.GetValue<string>("DatabaseSettings:DatabaseName"));
 
             ReportResults = database.GetCollection<ReportResult>(configuration.GetValue<string>("DatabaseSettings:CollectionName"));
-            //ContactContextSeed.SeedData(ReportResult);
         }
         public IMongoCollection<ReportResult> ReportResults { get; }
     }

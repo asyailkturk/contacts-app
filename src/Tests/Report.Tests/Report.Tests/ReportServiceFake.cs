@@ -2,6 +2,7 @@
 using Report.API.Entities;
 using Report.API.EventBusEvent;
 using Report.API.Service.Interfaces;
+using System;
 
 namespace Report.Tests
 {
@@ -40,7 +41,11 @@ namespace Report.Tests
 
         public Task CreateReport(ReportCreateEvent context)
         {
-            throw new NotImplementedException();
+            context.Report.ReportUrl = "URL";
+            context.Report.Title = "title";
+            context.Report.Status = Status.Done;
+            _reports.Add(context.Report);
+            return Task.FromResult(context.Report);
         }
 
         public Task CreateReportRequest()

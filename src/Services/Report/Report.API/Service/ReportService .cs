@@ -51,24 +51,19 @@ namespace Report.API.Service
         }
 
 
-        private async Task CreateReport(ReportCreateEvent? context = null)
+        public async Task CreateReport(ReportCreateEvent context)
         {
-
-            ReportResult report = context.Report ?? await AddReportResult();
-            List<GetContactsResponseModel> contacts = context.Contacts ?? await _contactService.GetData();
-
-            List<ReportData> data = PrepareDatas(contacts);
+            List<ReportData> data = PrepareDatas(context.Contacts);
 
             string title = await _googleService.AddDatas(data);
 
-            report.ReportUrl = URL;
-            report.Title = title;
-            report.Status = Status.Done;
-            report.CreatedDate = context.CreationDate.AddHours(3);
-            report.QueueId = context.Id.ToString();
+            context.Report.ReportUrl = URL;
+            context.Report.Title = title;
+            context.Report.Status = Status.Done;
+            context.Report.CreatedDate = context.CreationDate.AddHours(3);
+            context.Report.QueueId = context.Id.ToString();
 
-            await UpdateReportResult(report);
-
+            await UpdateReportResult(context.Report);
         }
 
         private List<ReportData> PrepareDatas(List<GetContactsResponseModel> contactResponseList)

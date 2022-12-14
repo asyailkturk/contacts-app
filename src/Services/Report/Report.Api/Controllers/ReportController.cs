@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Report.API.Entities;
 using Report.API.Service.Interfaces;
+using System.Net;
 
 namespace Report.API.Controllers
 {
@@ -18,22 +19,24 @@ namespace Report.API.Controllers
         }
 
         [HttpGet]
-        public async Task<List<ReportResult>> Get()
+        [ProducesResponseType(typeof(IEnumerable<ReportResult>), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<IEnumerable<ReportResult>>> Get()
         {
-            return await _reportService.GetAsync();
+            var reports = await _reportService.GetAsync();
+            return Ok(reports);
         }
 
         [HttpGet("{id}", Name = "GetReport")]
         public async Task<ActionResult<ReportResult>> Get(string id)
         {
-            ReportResult? contact = await _reportService.GetAsync(id);
+            ReportResult? report = await _reportService.GetAsync(id);
 
-            return contact is null ? (ActionResult<ReportResult>)NotFound() : (ActionResult<ReportResult>)Ok(contact);
+            return report is null ? (ActionResult<ReportResult>)NotFound() : (ActionResult<ReportResult>)Ok(report);
         }
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> CreateReportRequest()
+        public async Task<ActionResult> CreateReportRequest()
         {
             await _reportService.CreateReportRequest();
 

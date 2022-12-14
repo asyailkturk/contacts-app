@@ -25,10 +25,10 @@ namespace ContactBook.Tests
         #region Get
 
         [Fact]
-        public async Task  Get_WhenCalled_ReturnsOkResult()
+        public  void Get_WhenCalled_ReturnsOkResult()
         {
             // Act
-            var okResult = await _controller.Get();
+            var okResult =  _controller.Get().Result;
 
             // Assert
             Assert.IsType<OkObjectResult>(okResult.Result as OkObjectResult);

@@ -1,5 +1,4 @@
-﻿using Report.API.Entities;
-using Report.API.Models;
+﻿using Report.API.Models;
 
 namespace Report.API.Service.Interfaces
 {

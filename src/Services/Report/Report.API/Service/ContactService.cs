@@ -17,7 +17,7 @@ namespace Report.API.Service
         {
             try
             {
-               
+
                 return await _httpClient.GetFromJsonAsync<List<GetContactsResponseModel?>>("api/Contact");
             }
             catch (Exception)
@@ -25,7 +25,7 @@ namespace Report.API.Service
 
                 throw;
             }
-            
+
         }
     }
 }

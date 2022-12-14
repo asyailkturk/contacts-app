@@ -1,19 +1,16 @@
 ﻿using Google.Apis.Sheets.v4;
 using Google.Apis.Sheets.v4.Data;
-using Microsoft.AspNetCore.Mvc;
 using Report.API.Entities;
 using Report.API.Helper;
 using Report.API.Service.Interfaces;
-using static Google.Apis.Sheets.v4.SpreadsheetsResource.ValuesResource.AppendRequest;
 
 namespace Report.API.Service
 {
     public class GoogleSheetService : IGoogleSheetService
     {
-        const string SPREADSHEET_ID = "11qqVJ0rZXONJP-QCBxs5S_u5DuxIG8dctRCAPDPsJJE";
-      
-        SpreadsheetsResource _googleSheetService;
-        
+        private const string SPREADSHEET_ID = "11qqVJ0rZXONJP-QCBxs5S_u5DuxIG8dctRCAPDPsJJE";
+        private readonly SpreadsheetsResource _googleSheetService;
+
 
         public GoogleSheetService(GoogleSheetsHelper googleSheetsHelper)
         {
@@ -21,19 +18,19 @@ namespace Report.API.Service
         }
         private async Task<List<ReportData>> GetData(string spreadSheetId)
         {
-            var range = "A:C";
-            var request = _googleSheetService.Values.Get(spreadSheetId, range);
-            
-            var response =  await request.ExecuteAsync();
-            var values = response.Values;
+            string range = "A:C";
+            SpreadsheetsResource.ValuesResource.GetRequest request = _googleSheetService.Values.Get(spreadSheetId, range);
+
+            ValueRange response = await request.ExecuteAsync();
+            IList<IList<object>> values = response.Values;
             return ReportMapper.MapFromRangeData(values);
         }
         public async Task<string> AddDatas(List<ReportData> reports)
         {
-            var newSheet = await CreateNewSheet();
-            var title = newSheet.Replies.FirstOrDefault().AddSheet.Properties.Title;
-            var range = $"{title}!A:C";
-            var valueRange = new List<ValueRange>
+            BatchUpdateSpreadsheetResponse newSheet = await CreateNewSheet();
+            string title = newSheet.Replies.FirstOrDefault().AddSheet.Properties.Title;
+            string range = $"{title}!A:C";
+            List<ValueRange> valueRange = new()
             {
                 new ValueRange()
                 {
@@ -41,11 +38,13 @@ namespace Report.API.Service
                      Range = range,
                      MajorDimension = "ROWS"
                 }
-               
+
             };
-            var body = new BatchUpdateValuesRequest();
-            body.ValueInputOption = "USER_ENTERED";
-            body.Data = valueRange;
+            BatchUpdateValuesRequest body = new()
+            {
+                ValueInputOption = "USER_ENTERED",
+                Data = valueRange
+            };
 
             await _googleSheetService.Values.BatchUpdate(body , SPREADSHEET_ID).ExecuteAsync();
 
@@ -54,25 +53,27 @@ namespace Report.API.Service
         private async Task<Spreadsheet> CreateNewSpreadSheet()
         {
 
-            var sheetBody = new Spreadsheet();
-            sheetBody.Properties.Title = $"{DateTime.Now.ToString()}+ Report";
-            var request = _googleSheetService.Create(sheetBody);
-          
+            Spreadsheet sheetBody = new();
+            sheetBody.Properties.Title = $"{DateTime.Now}+ Report";
+            SpreadsheetsResource.CreateRequest request = _googleSheetService.Create(sheetBody);
+
             return await request.ExecuteAsync();
         }
         private async Task<BatchUpdateSpreadsheetResponse> CreateNewSheet()
         {
 
-            var body = new BatchUpdateSpreadsheetRequest();
+            BatchUpdateSpreadsheetRequest body = new();
 
-            var bodyItem = new Request();
-            bodyItem.AddSheet = new AddSheetRequest
+            Request bodyItem = new()
             {
-                Properties = new SheetProperties
-                { Title = $"{DateTime.UtcNow.AddHours(3).ToString()}+ Report" }
+                AddSheet = new AddSheetRequest
+                {
+                    Properties = new SheetProperties
+                    { Title = $"{DateTime.UtcNow.AddHours(3)}+ Report" }
+                }
             };
             body.Requests = new Request[] { bodyItem };
-            
+
             var request = _googleSheetService.BatchUpdate(body, SPREADSHEET_ID);
 
             return await request.ExecuteAsync();

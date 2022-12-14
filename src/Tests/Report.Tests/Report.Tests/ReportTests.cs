@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Report.API.Controllers;
 using Report.API.Entities;
 using Report.API.Service.Interfaces;
 using Xunit;
+using static MassTransit.ValidationResultExtensions;
 
 namespace Report.Tests
 {
@@ -76,9 +78,9 @@ namespace Report.Tests
         {
 
             // Act
-            var okResponse = _controller.CreateReportRequest().Result;
+            var okResult = _controller.CreateReportRequest().Result;
             // Assert
-            Assert.IsType<OkResult>(okResponse);
+            Assert.IsType<OkObjectResult>(okResult.Result as OkObjectResult);
         }
 
         [Fact]
@@ -86,12 +88,11 @@ namespace Report.Tests
         {
 
             // Act
-            var okResponse = _controller.CreateReportRequest().Result;
+            var okResponse = _controller.CreateReportRequest().Result.Result as OkObjectResult;
             var item = _repo.GetAsync().Result.LastOrDefault();
             // Assert
-            Assert.IsType<OkResult>(okResponse);
             Assert.IsType<ReportResult>(item);
-            Assert.Equal(Status.Prepraring, item.Status);
+            Assert.Equal(okResponse.Value, item.Id);
         }
         #endregion
 

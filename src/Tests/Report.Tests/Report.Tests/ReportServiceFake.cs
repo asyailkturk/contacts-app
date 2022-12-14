@@ -47,7 +47,7 @@ namespace Report.Tests
             return Task.FromResult(context.Report);
         }
 
-        public Task CreateReportRequest()
+        public Task<string> CreateReportRequest()
         {
             ReportResult reportResult = new()
             {
@@ -56,7 +56,7 @@ namespace Report.Tests
                 Id = Guid.NewGuid().ToString()
             };
             _reports.Add(reportResult);
-            return Task.FromResult(reportResult);
+            return Task.FromResult(reportResult.Id);
         }
 
         public Task<List<ReportResult>> GetAsync()

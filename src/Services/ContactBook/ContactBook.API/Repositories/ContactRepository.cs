@@ -39,7 +39,7 @@ namespace ContactBook.API.Repositories
         {
             Contact contact = _context.Contacts.Find(p => p.Id == id).Single();
 
-            if (contactInfo != null && contact != null && !contact.CommunicationInfo.Where(x => x.InfoType == contactInfo.InfoType).Any())
+            if (contactInfo != null && contact != null && !contact.CommunicationInfo.Any(x => x.InfoType == contactInfo.InfoType))
             {
                 contact.CommunicationInfo.Add(contactInfo);
                 await _context.Contacts.ReplaceOneAsync(p => p.Id == id, contact);

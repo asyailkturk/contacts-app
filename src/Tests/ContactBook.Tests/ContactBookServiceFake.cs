@@ -1,12 +1,6 @@
-﻿using ContactBook.API.Controllers;
-using ContactBook.API.Data;
-using ContactBook.API.Entities;
+﻿using ContactBook.API.Entities;
 using ContactBook.API.Repositories;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using Moq;
-using Xunit;
 
 namespace ContactBook.Tests
 {
@@ -37,12 +31,12 @@ namespace ContactBook.Tests
                     CommunicationInfo = new List<CommunicationInfo>{
                     new CommunicationInfo { Detail = "Istanbul", InfoType = CommunationInfoType.Location},
                     new CommunicationInfo { Detail = "05555555555", InfoType = CommunationInfoType.PhoneNumber},
-                    
+
                 }}
             };
         }
         public Task<List<Contact>> GetAsync()
-        {;
+        {
             return Task.FromResult(_contacts);
         }
         public Task<Contact?> GetAsync(string id)

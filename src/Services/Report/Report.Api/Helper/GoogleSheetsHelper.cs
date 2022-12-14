@@ -26,7 +26,7 @@ namespace Report.API.Helper
             });
         }
 
-        private GoogleCredential GetCredentialsFromFile()
+        private static GoogleCredential GetCredentialsFromFile()
         {
             GoogleCredential credential;
             using (FileStream stream = new("client_secrets.json", FileMode.Open, FileAccess.Read))

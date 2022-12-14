@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace ContactBook.API.Data
 {
-    public class ContactContextSeed
+    public static class ContactContextSeed
     {
         public static void SeedData(IMongoCollection<Contact> contactCollection)
         {

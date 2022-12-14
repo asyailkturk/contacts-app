@@ -2,7 +2,7 @@
 
 namespace Report.API.Helper
 {
-    public class ReportMapper
+    public static class ReportMapper
     {
         public static List<ReportData> MapFromRangeData(IList<IList<object>> values)
         {

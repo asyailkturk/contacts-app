@@ -16,19 +16,11 @@ namespace Report.API.Service
         {
             _googleSheetService = googleSheetsHelper.Service.Spreadsheets;
         }
-        private async Task<List<ReportData>> GetData(string spreadSheetId)
-        {
-            string range = "A:C";
-            SpreadsheetsResource.ValuesResource.GetRequest request = _googleSheetService.Values.Get(spreadSheetId, range);
-
-            ValueRange response = await request.ExecuteAsync();
-            IList<IList<object>> values = response.Values;
-            return ReportMapper.MapFromRangeData(values);
-        }
+      
         public async Task<string> AddDatas(List<ReportData> reports)
         {
             BatchUpdateSpreadsheetResponse newSheet = await CreateNewSheet();
-            string title = newSheet.Replies.FirstOrDefault().AddSheet.Properties.Title;
+            string title = newSheet?.Replies?.FirstOrDefault().AddSheet.Properties.Title;
             string range = $"{title}!A:C";
             List<ValueRange> valueRange = new()
             {
@@ -50,15 +42,7 @@ namespace Report.API.Service
 
             return title;
         }
-        private async Task<Spreadsheet> CreateNewSpreadSheet()
-        {
-
-            Spreadsheet sheetBody = new();
-            sheetBody.Properties.Title = $"{DateTime.Now}+ Report";
-            SpreadsheetsResource.CreateRequest request = _googleSheetService.Create(sheetBody);
-
-            return await request.ExecuteAsync();
-        }
+       
         private async Task<BatchUpdateSpreadsheetResponse> CreateNewSheet()
         {
 

@@ -1,0 +1,17 @@
+﻿C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Controllers\ContactController.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Data\ContactContext.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Data\ContactContextSeed.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Data\IContactContext.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Entities\CommunicationInfo.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Entities\Contact.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Program.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Repositories\ContactRepository.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Repositories\IContactRepository.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\ContactBook.API.GlobalUsings.g.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\ContactBook.API.AssemblyInfo.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\ContactBook.API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\appsettings.Development.json
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\appsettings.json
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Dockerfile
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Properties\launchSettings.json

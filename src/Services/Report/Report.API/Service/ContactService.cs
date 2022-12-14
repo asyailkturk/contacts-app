@@ -15,17 +15,8 @@ namespace Report.API.Service
         }
         public async Task<List<GetContactsResponseModel?>> GetData()
         {
-            try
-            {
-
-                return await _httpClient.GetFromJsonAsync<List<GetContactsResponseModel?>>("api/Contact");
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-
+            return await _httpClient.GetFromJsonAsync<List<GetContactsResponseModel?>>("api/Contact");
+            
         }
     }
 }

@@ -1,0 +1,1 @@
+C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\.sonarqube\out\0

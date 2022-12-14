@@ -1,0 +1,14 @@
+z
+qC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Controllers\ContactController.csutf-8p
+gC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Data\ContactContext.csutf-8t
+kC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Data\ContactContextSeed.csutf-8q
+hC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Data\IContactContext.csutf-8w
+nC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Entities\CommunicationInfo.csutf-8m
+dC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Entities\Contact.csutf-8d
+[C:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Program.csutf-8{
+rC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Repositories\ContactRepository.csutf-8|
+sC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\Repositories\IContactRepository.csutf-8è
+ÉC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\ContactBook.API.GlobalUsings.g.csutf-8ú
+êC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\.NETCoreApp,Version=v6.0.AssemblyAttributes.csutf-8ç
+ÅC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\ContactBook.API.AssemblyInfo.csutf-8†
+îC:\Users\Asya\source\repos\contacts-app\src\Services\ContactBook\ContactBook.API\obj\Debug\net6.0\ContactBook.API.MvcApplicationPartsAssemblyInfo.csutf-8

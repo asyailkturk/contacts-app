@@ -2,7 +2,6 @@
 using Report.API.Entities;
 using Report.API.EventBusEvent;
 using Report.API.Service.Interfaces;
-using System;
 
 namespace Report.Tests
 {
@@ -50,12 +49,12 @@ namespace Report.Tests
 
         public Task CreateReportRequest()
         {
-            var reportResult = new ReportResult()
+            ReportResult reportResult = new()
             {
-                CreatedDate= DateTime.Now,
-                Status= Status.Prepraring,
+                CreatedDate = DateTime.Now,
+                Status = Status.Prepraring,
                 Id = Guid.NewGuid().ToString()
-        };
+            };
             _reports.Add(reportResult);
             return Task.FromResult(reportResult);
         }
@@ -70,5 +69,5 @@ namespace Report.Tests
         {
             return Task.FromResult(_reports.Where(a => a.Id == id).FirstOrDefault());
         }
-    } 
+    }
 }

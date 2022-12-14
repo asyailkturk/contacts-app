@@ -31,7 +31,7 @@ namespace Report.API.Service
 
             ReportResult report = await AddReportResult();
 
-            List<GetContactsResponseModel?> contacts = await _contactService.GetData();
+            List<GetContactsResponseModel> contacts = await _contactService.GetData();
 
             await _publishEndpoint.Publish<ReportCreateEvent>(new ReportCreateEvent
             {
@@ -66,17 +66,17 @@ namespace Report.API.Service
             await UpdateReportResult(context.Report);
         }
 
-        private List<ReportData> PrepareDatas(List<GetContactsResponseModel> contactResponseList)
+        private static List<ReportData> PrepareDatas(List<GetContactsResponseModel> contactResponseList)
         {
             List<ReportData> responseList = new();
-            foreach (GetContactsResponseModel contact in contactResponseList)
+            foreach (var info in contactResponseList.Select(x => x.CommunicationInfo))
             {
-                var item = responseList.FindIndex(x => x.Location == contact.CommunicationInfo.Where(x => x.InfoType == CommunationInfoType.Location).FirstOrDefault().Detail);
+                var item = responseList.FindIndex(x => x.Location == info.FirstOrDefault(x => x.InfoType == CommunationInfoType.Location)?.Detail);
                 if (item != -1)
                 {
 
                     responseList[item].ContactCount = (Convert.ToInt32(responseList[item].ContactCount) + 1).ToString();
-                    responseList[item].PhoneNumberCount = contact.CommunicationInfo.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ?
+                    responseList[item].PhoneNumberCount = info.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ?
                         (Convert.ToInt32(responseList[item].PhoneNumberCount) + 1).ToString() : responseList[item].PhoneNumberCount;
 
                 }
@@ -85,8 +85,8 @@ namespace Report.API.Service
                     responseList.Add(new ReportData
                     {
                         ContactCount = "1",
-                        Location = contact.CommunicationInfo.Where(x => x.InfoType == CommunationInfoType.Location).FirstOrDefault().Detail,
-                        PhoneNumberCount = contact.CommunicationInfo.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ? "1" : "0",
+                        Location = info.FirstOrDefault(x => x.InfoType == CommunationInfoType.Location).Detail,
+                        PhoneNumberCount = info.Any(x => x.InfoType == CommunationInfoType.PhoneNumber) ? "1" : "0",
                     });
 
                 }

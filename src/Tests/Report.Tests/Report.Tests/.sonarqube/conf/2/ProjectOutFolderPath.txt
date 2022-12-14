@@ -1,0 +1,1 @@
+C:\Users\Asya\source\repos\contacts-app\src\Tests\Report.Tests\Report.Tests\.sonarqube\out\2

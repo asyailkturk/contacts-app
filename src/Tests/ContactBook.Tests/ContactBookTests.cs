@@ -1,18 +1,15 @@
 using ContactBook.API.Controllers;
-using ContactBook.API.Data;
 using ContactBook.API.Entities;
 using ContactBook.API.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using Moq;
 using Xunit;
 
 namespace ContactBook.Tests
 {
     public class ContactBookTests
     {
-      
+
         private readonly IContactRepository _repo;
         private readonly ContactController _controller;
 
@@ -25,7 +22,7 @@ namespace ContactBook.Tests
         #region Get
 
         [Fact]
-        public  void Get_WhenCalled_ReturnsOkResult()
+        public void Get_WhenCalled_ReturnsOkResult()
         {
             // Act
             var okResult =  _controller.Get().Result;
@@ -41,7 +38,7 @@ namespace ContactBook.Tests
             var result = _controller.Get().Result.Result as OkObjectResult;
             // Assert
             var items = Assert.IsType<List<Contact>>(result.Value);
-            Assert.Equal(3, items.Count());
+            Assert.Equal(3, items.Count);
         }
 
         #endregion
@@ -58,7 +55,7 @@ namespace ContactBook.Tests
             // Assert
             Assert.IsType<OkObjectResult>(okResult.Result.Result as OkObjectResult);
         }
-        
+
         [Fact]
         public void GetById_ExistingGuidPassed_ReturnsRightItem()
         {
@@ -157,7 +154,7 @@ namespace ContactBook.Tests
             // Act
             var okResponse = _controller.Delete(existingGuid);
             // Assert
-            Assert.Equal(2, _repo.GetAsync().Result.Count());
+            Assert.Equal(2, _repo.GetAsync().Result.Count);
         }
         #endregion
 
@@ -170,7 +167,7 @@ namespace ContactBook.Tests
             var existingGuid = "ab2bd817-98cd-4cf3-a80a-53ea0cd9c200";
             var typeMissingItem = new CommunicationInfo()
             {
-               Detail= "Detail"
+                Detail = "Detail"
             };
             _controller.ModelState.AddModelError("InfoType", "Required");
             // Act
@@ -205,7 +202,7 @@ namespace ContactBook.Tests
                 Detail = "johndoe@gmail.com",
                 InfoType = CommunationInfoType.Email
             };
-            
+
             // Act
             var noContentResponse = _controller.AddContactInfo(existingGuid,testItem).Result;
             // Assert
@@ -224,7 +221,7 @@ namespace ContactBook.Tests
             };
             // Act
             var noContentResponse = _controller.AddContactInfo(existingGuid, testItem).Result as NoContentResult;
-           
+
             // Assert
             Assert.Equal("johndoe@gmail.com", _repo.GetAsync(existingGuid).Result.CommunicationInfo.Find(x => x.InfoType == CommunationInfoType.Email).Detail);
         }
@@ -260,9 +257,9 @@ namespace ContactBook.Tests
             // Arrange
             var existingGuid = "ab2bd817-98cd-4cf3-a80a-53ea0cd9c200";
             // Act
-            var okResponse = _controller.DeleteContactInfo(existingGuid);
+            _ = _controller.DeleteContactInfo(existingGuid);
             // Assert
-            Assert.Equal(0, _repo.GetAsync("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200").Result.CommunicationInfo.Count);
+            Assert.Empty(_repo.GetAsync("ab2bd817-98cd-4cf3-a80a-53ea0cd9c200").Result.CommunicationInfo);
         }
         #endregion
 

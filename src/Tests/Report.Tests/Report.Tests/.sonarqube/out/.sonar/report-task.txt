@@ -1,0 +1,6 @@
+projectKey=Report.Tests
+serverUrl=http://localhost:9000
+serverVersion=9.7.1.62043
+dashboardUrl=http://localhost:9000/dashboard?id=Report.Tests
+ceTaskId=AYUPh_YiloLrj00iRuIM
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYUPh_YiloLrj00iRuIM

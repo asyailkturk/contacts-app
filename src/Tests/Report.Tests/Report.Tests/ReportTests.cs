@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Report.API.Controllers;
 using Report.API.Entities;
-using Report.API.Repository;
 using Report.API.Service.Interfaces;
 using Xunit;
 
@@ -9,7 +8,7 @@ namespace Report.Tests
 {
     public class ReportTests
     {
-      
+
         private readonly IReportService _repo;
         private readonly ReportController _controller;
 
@@ -38,7 +37,7 @@ namespace Report.Tests
             var result = _controller.Get().Result.Result as OkObjectResult;
             // Assert
             var items = Assert.IsType<List<ReportResult>>(result.Value);
-            Assert.Equal(3, items.Count());
+            Assert.Equal(3, items.Count);
         }
 
         #endregion
@@ -55,7 +54,7 @@ namespace Report.Tests
             // Assert
             Assert.IsType<OkObjectResult>(okResult.Result.Result as OkObjectResult);
         }
-        
+
         [Fact]
         public void GetById_ExistingGuidPassed_ReturnsRightItem()
         {
@@ -71,11 +70,11 @@ namespace Report.Tests
 
         #region Create
 
-        
+
         [Fact]
         public void AddReportRequest_ReturnsCreatedResponse()
         {
-            
+
             // Act
             var okResponse = _controller.CreateReportRequest().Result;
             // Assert
@@ -85,7 +84,7 @@ namespace Report.Tests
         [Fact]
         public void AddReportRequest_ReturnedResponseHasCreatedItem()
         {
-            
+
             // Act
             var okResponse = _controller.CreateReportRequest().Result;
             var item = _repo.GetAsync().Result.LastOrDefault();

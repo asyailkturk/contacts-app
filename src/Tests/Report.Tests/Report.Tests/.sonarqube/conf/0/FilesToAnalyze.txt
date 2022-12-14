@@ -1,0 +1,2 @@
+﻿C:\Users\Asya\source\repos\contacts-app\src\BuildingBlocks\EventBus.Messages\Common\EventBusConstants.cs
+C:\Users\Asya\source\repos\contacts-app\src\BuildingBlocks\EventBus.Messages\Events\IntegrationBaseEvent.cs
